@@ -5,10 +5,24 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 import pandas as pd
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 model = joblib.load('random_forest_model')
 app = FastAPI()
 scaler = joblib.load('scaler.joblib')
+origins = [
+    "https://himanshu0508raturi.github.io",
+    # you can add other origins you need, e.g. dev host:
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,            # or ["*"] to allow all (less secure)
+    allow_credentials=True,           # allow cookies/credentials if you need them
+    allow_methods=["*"],              # allow GET, POST, OPTIONS, etc.
+    allow_headers=["*"],              # allow custom headers
+)
 
 class heart(BaseModel):
     age: int
