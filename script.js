@@ -17,17 +17,20 @@ function showResult(label, confidence){
   const badge = document.getElementById('resultBadge');
   const fillColor = cls === 'present' ? '#ff5a6e' : '#34d399';
   const glowColor = cls === 'present' ? 'rgba(255,90,110,0.18)' : 'rgba(52,211,153,0.12)';
+  // place SVG and label in normal flow (no absolute positioning)
   badge.innerHTML = `
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="pulse">
-      <defs>
-        <linearGradient id="hb" x1="0" x2="1">
-          <stop offset="0" stop-color="${fillColor}" stop-opacity="0.95" />
-          <stop offset="1" stop-color="#ff2d55" stop-opacity="0.95" />
-        </linearGradient>
-      </defs>
-      <path d="M12 21s-6-4.35-6-9a6 6 0 0112 0c0 4.65-6 9-6 9z" fill="url(#hb)" style="filter: drop-shadow(0 10px 22px ${glowColor});" />
-    </svg>
-    <div style="position:absolute;left:0;right:0;bottom:8px;text-align:center;font-weight:700;color:#0f172a">${label}</div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="pulse">
+        <defs>
+          <linearGradient id="hb" x1="0" x2="1">
+            <stop offset="0" stop-color="${fillColor}" stop-opacity="0.95" />
+            <stop offset="1" stop-color="#ff2d55" stop-opacity="0.95" />
+          </linearGradient>
+        </defs>
+        <path d="M12 21s-6-4.35-6-9a6 6 0 0112 0c0 4.65-6 9-6 9z" fill="url(#hb)" style="filter: drop-shadow(0 10px 22px ${glowColor});" />
+      </svg>
+      <div style="font-weight:700;color:#0f172a;text-align:center">${label}</div>
+    </div>
   `;
 
   // update gauge
