@@ -32,6 +32,7 @@
 - `index.html` — frontend page with form and result visualization.
 - `styles.css` — frontend styling.
 - `script.js` — frontend logic that sends POST requests and animates the result.
+- `heart_disease_prediction_system.ipynb`- code for training model.
 - `Dockerfile` — containerization file for the backend.
 - `requirements.txt` — Python dependencies used by the project.
 
