@@ -117,3 +117,4 @@ app.add_middleware(
   ```powershell
   docker run -p 8000:8000 heart-disease-app
   ```
+## Developed By- Himanshu Raturi [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/himanshu-raturi/)
