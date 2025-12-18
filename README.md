@@ -1,121 +1,204 @@
-**Heart Disease Predictor (FastAPI + Random Forest)**
+# 🫀 Heart Disease Prediction API
 
-- **Project:** A REST API backend (FastAPI) serving a serialized Random Forest model and a small static frontend (HTML/CSS/JS) that collects patient features, posts them to the API, and visualizes the prediction and confidence.
+A machine learning-powered REST API built with FastAPI that predicts the presence of heart disease based on clinical parameters.  The API uses a Random Forest classifier trained on heart disease data and provides predictions with confidence scores.
 
-**Features**
-- **Prediction API**: POST `/predict` accepts patient features and returns a label and confidence score.
-- **Model**: Random Forest classifier (trained on the Kaggle Heart Disease dataset), serialized with `joblib` as `random_forest_model` and `scaler.joblib` for input scaling.
-- **Validation**: Request schema validated with Pydantic model in `app.py`.
-- **Simple Frontend**: `index.html`, `styles.css`, and `script.js` — collects all required inputs, POSTs JSON to the backend, and displays an animated confidence gauge and badge.
-- **Dockerfile**: Containerize the FastAPI app (Dockerfile present in repo).
+## 🌟 Features
 
-**Tech Stack**
-- **Language:** Python 3.x
-- **Backend:** FastAPI + Uvicorn
-- **ML:** scikit-learn (RandomForest), joblib, pandas, numpy
-- **Frontend:** HTML, CSS, vanilla JavaScript
-- **Dev/Ops:** Docker (Dockerfile included)
+- **Machine Learning Prediction**: Uses a Random Forest model for accurate heart disease detection
+- **RESTful API**: Built with FastAPI for high performance and automatic API documentation
+- **CORS Support**: Configured to allow cross-origin requests from specified domains
+- **Confidence Scores**: Returns prediction confidence percentages
+- **Standardized Input**: Implements StandardScaler for consistent data preprocessing
+- **Docker Support**:  Includes Dockerfile for easy containerization and deployment
 
-**Skills Demonstrated**
-- Building a lightweight ML-backed REST API with FastAPI
-- Model serialization/deserialization with `joblib`
-- Input validation with Pydantic
-- Basic data preprocessing (scaling) at inference
-- Vanilla frontend integration with fetch API
-- Simple UI/UX with CSS animations and responsive layout
-- Containerization with Docker
+## 🚀 Live Demo
 
-**Repository: Key Files**
-- `app.py` — FastAPI application. Loads the model, defines the Pydantic `heart` schema, and exposes the `/predict` endpoint.
-- `random_forest_model` — serialized model file (joblib). (binary)
-- `scaler.joblib` — serialized StandardScaler used at inference.
-- `index.html` — frontend page with form and result visualization.
-- `styles.css` — frontend styling.
-- `script.js` — frontend logic that sends POST requests and animates the result.
-- `heart_disease_prediction_system.ipynb`- code for training model.
-- `Dockerfile` — containerization file for the backend.
-- `requirements.txt` — Python dependencies used by the project.
+- **API Endpoint**: [Backend API](https://himanshu0508raturi.github.io)
+- **Interactive Docs**: Access `/docs` endpoint for Swagger UI documentation
+- **ReDoc**: Access `/redoc` endpoint for alternative API documentation
 
-**API**
-- GET `/` — basic health/home message
-- POST `/predict` — JSON body with the following fields (all required):
-  - `age` (int)
-  - `sex` (int)
-  - `cp` (int)
-  - `trestbps` (int)
-  - `chol` (int)
-  - `fbs` (int)
-  - `restecg` (int)
-  - `thalach` (int)
-  - `exang` (int)
-  - `oldpeak` (float)
-  - `slope` (int)
-  - `ca` (int)
-  - `thal` (int)
+## 📋 API Endpoints
 
-  Example request (curl):
-  ```bash
-  curl -X POST "http://localhost:8000/predict" \
-    -H "Content-Type: application/json" \
-    -d '{"age":63,"sex":1,"cp":3,"trestbps":145,"chol":233,"fbs":1,"restecg":0,"thalach":150,"exang":0,"oldpeak":2.3,"slope":0,"ca":0,"thal":1}'
-  ```
+### Root Endpoint
+```http
+GET /
+```
+Returns a simple message confirming the backend is live.
 
-  Example response (JSON):
-  ```json
-  {
-    "label": "Heart Disease Present",
-    "confidence": 61.5432
-  }
-  ```
-
-**Frontend**
-- `index.html` contains a form whose field names match the Pydantic model keys. The frontend (`script.js`) sends a POST JSON payload to the configured `PREDICT_URL` and expects the response shown above.
-- If your backend endpoint requires `/predict` make sure `PREDICT_URL` in `script.js` is set to `https://heart-disease-fastapi-backend.onrender.com/predict` (or your local URL).
-
-**Run Locally (recommended)**
-1. Create a Python virtual environment and activate it.
-   ```powershell
-   python -m venv .venv; .\.venv\Scripts\Activate.ps1
-   ```
-2. Install dependencies:
-   ```powershell
-   pip install -r requirements.txt
-   ```
-3. Run the API server (development):
-   ```powershell
-   uvicorn app:app --reload --host 0.0.0.0 --port 8000
-   ```
-4. Serve the frontend (optional, or open `index.html` directly). To serve via a static file server:
-   ```powershell
-   cd 'C:\Users\Himanshu\Desktop\Heart-Disease_New'; python -m http.server 8000
-   # then open http://localhost:8000/index.html
-   ```
-
-**CORS Note**
-If you serve the frontend from a different origin than the API you will likely see CORS errors in the browser. Enable CORS in `app.py` by adding the following snippet near the app creation block:
-
-```python
-from fastapi.middleware.cors import CORSMiddleware
-
-app = FastAPI()
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # restrict in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# rest of app
+### Prediction Endpoint
+```http
+POST /predict
 ```
 
-**Docker (build & run)**
-- Build image (PowerShell):
-  ```powershell
-  docker build -t heart-disease-app .
-  ```
-- Run container:
-  ```powershell
-  docker run -p 8000:8000 heart-disease-app
-  ```
-## Developed By- Himanshu Raturi [![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/himanshu-raturi/)
+**Request Body:**
+```json
+{
+  "age": 63,
+  "sex": 1,
+  "cp": 3,
+  "trestbps": 145,
+  "chol": 233,
+  "fbs": 1,
+  "restecg": 0,
+  "thalach":  150,
+  "exang": 0,
+  "oldpeak":  2.3,
+  "slope":  0,
+  "ca": 0,
+  "thal": 1
+}
+```
+
+**Response:**
+```json
+{
+  "label": "Heart Disease Present",
+  "confidence":  85.6732
+}
+```
+
+## 📊 Input Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `age` | int | Age in years |
+| `sex` | int | Sex (1 = male, 0 = female) |
+| `cp` | int | Chest pain type (0-3) |
+| `trestbps` | int | Resting blood pressure (mm Hg) |
+| `chol` | int | Serum cholesterol (mg/dl) |
+| `fbs` | int | Fasting blood sugar > 120 mg/dl (1 = true, 0 = false) |
+| `restecg` | int | Resting electrocardiographic results (0-2) |
+| `thalach` | int | Maximum heart rate achieved |
+| `exang` | int | Exercise induced angina (1 = yes, 0 = no) |
+| `oldpeak` | float | ST depression induced by exercise relative to rest |
+| `slope` | int | Slope of the peak exercise ST segment (0-2) |
+| `ca` | int | Number of major vessels colored by fluoroscopy (0-3) |
+| `thal` | int | Thalassemia (0-3) |
+
+## 🛠️ Installation & Setup
+
+### Prerequisites
+- Python 3.8+
+- pip package manager
+
+### Local Development
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/Himanshu0508Raturi/heart-disease-fastapi-backend.git
+cd heart-disease-fastapi-backend
+```
+
+2. **Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+3. **Run the application**
+```bash
+uvicorn app:app --reload
+```
+
+The API will be available at `http://localhost:8000`
+
+### Docker Deployment
+
+1. **Build the Docker image**
+```bash
+docker build -t heart-disease-api .
+```
+
+2. **Run the container**
+```bash
+docker run -p 8000:8000 heart-disease-api
+```
+
+## 📦 Project Structure
+
+```
+heart-disease-fastapi-backend/
+├── app.py                              # Main FastAPI application
+├── random_forest_model                 # Trained ML model (pickled)
+├── scaler.joblib                       # StandardScaler for preprocessing
+├── heart_disease_prediction_system.ipynb # Jupyter notebook for model training
+├── requirements.txt                    # Python dependencies
+├── Dockerfile                          # Docker configuration
+├── . dockerignore                       # Docker ignore file
+├── index.html                          # Frontend interface
+├── styles.css                          # Frontend styles
+├── script.js                           # Frontend JavaScript
+└── README.md                           # Project documentation
+```
+
+## 🧪 Technologies Used
+
+- **[FastAPI](https://fastapi.tiangolo.com/)**: Modern, fast web framework for building APIs
+- **[scikit-learn](https://scikit-learn.org/)**: Machine learning library (Random Forest classifier)
+- **[Pandas](https://pandas.pydata.org/)**: Data manipulation and analysis
+- **[NumPy](https://numpy.org/)**: Numerical computing
+- **[Pydantic](https://pydantic-docs.helpmanual.io/)**: Data validation using Python type annotations
+- **[Joblib](https://joblib.readthedocs.io/)**: Model serialization
+- **[Uvicorn](https://www.uvicorn.org/)**: ASGI server for FastAPI
+
+## 🤖 Model Information
+
+The prediction model is a **Random Forest Classifier** trained on heart disease clinical data. The model:
+- Uses 13 clinical features as input
+- Applies StandardScaler for feature normalization
+- Returns binary classification (Disease Present/Not Present)
+- Provides confidence scores based on prediction probabilities
+
+## 🔒 CORS Configuration
+
+The API is configured to accept requests from:
+- `https://himanshu0508raturi. github.io` (production)
+- `http://localhost:3000` (development)
+
+To add more origins, modify the `origins` list in `app.py`.
+
+## 📝 API Documentation
+
+Once the server is running, you can access: 
+- **Swagger UI**: `http://localhost:8000/docs`
+- **ReDoc**: `http://localhost:8000/redoc`
+
+## 🧑‍💻 Development
+
+### Running Tests
+```bash
+# Add your test commands here
+pytest
+```
+
+### Code Formatting
+```bash
+# Format code with black
+black app.py
+```
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!  Feel free to check the [issues page](https://github.com/Himanshu0508Raturi/heart-disease-fastapi-backend/issues).
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 👨‍💻 Author
+
+**Himanshu Raturi**
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/himanshu-raturi/)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/Himanshu0508Raturi)
+
+## ⭐ Show your support
+
+Give a ⭐️ if this project helped you!
+
+## 📌 Disclaimer
+
+This application is for educational and informational purposes only. It should not be used as a substitute for professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider for medical concerns.
+
+---
+
+Made with ❤️ by [Himanshu Raturi](https://github.com/Himanshu0508Raturi)
