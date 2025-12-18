@@ -13,7 +13,7 @@ A machine learning-powered REST API built with FastAPI that predicts the presenc
 
 ## 🚀 Live Demo
 
-- **API Endpoint**: [Backend API](https://himanshu0508raturi.github.io)
+- **API Endpoint**: [Backend API]([https://himanshu0508raturi.github.io](https://heart-disease-fastapi-backend.onrender.com/docs))
 - **Interactive Docs**: Access `/docs` endpoint for Swagger UI documentation
 - **ReDoc**: Access `/redoc` endpoint for alternative API documentation
 
